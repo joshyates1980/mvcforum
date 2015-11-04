@@ -9,11 +9,11 @@ namespace MVCForum.Services
 {
     public partial class CategoryPermissionForRoleService : ICategoryPermissionForRoleService
     {
-        private readonly ICategoryPermissionForRoleRepository _categoryPermissionForRoleService;
+        private readonly ICategoryPermissionForRoleRepository _categoryPermissionForRoleRepository;
 
-        public CategoryPermissionForRoleService(ICategoryPermissionForRoleRepository categoryPermissionForRoleService)
+        public CategoryPermissionForRoleService(ICategoryPermissionForRoleRepository categoryPermissionForRoleRepository)
         {
-            _categoryPermissionForRoleService = categoryPermissionForRoleService;
+            _categoryPermissionForRoleRepository = categoryPermissionForRoleRepository;
         }
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace MVCForum.Services
         /// <param name="categoryPermissionForRole"></param>
         public void Add(CategoryPermissionForRole categoryPermissionForRole)
         {
-            _categoryPermissionForRoleService.Add(categoryPermissionForRole);
+            _categoryPermissionForRoleRepository.Add(categoryPermissionForRole);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace MVCForum.Services
                         categoryPermissionForRole.MembershipRole != null)
             {
 
-                return _categoryPermissionForRoleService.GetByPermissionRoleCategoryId(categoryPermissionForRole.Permission.Id,
+                return _categoryPermissionForRoleRepository.GetByPermissionRoleCategoryId(categoryPermissionForRole.Permission.Id,
                                                           categoryPermissionForRole.MembershipRole.Id,
                                                           categoryPermissionForRole.Category.Id);
             }
@@ -74,7 +74,7 @@ namespace MVCForum.Services
         /// <returns></returns>
         public Dictionary<Permission, CategoryPermissionForRole> GetCategoryRow(MembershipRole role, Category cat)
         {
-            var catRowList = _categoryPermissionForRoleService.GetCategoryRow(role, cat);
+            var catRowList = _categoryPermissionForRoleRepository.GetCategoryRow(role, cat);
             return catRowList.ToDictionary(catRow => catRow.Permission);
         }
 
@@ -85,7 +85,7 @@ namespace MVCForum.Services
         /// <returns></returns>
         public IEnumerable<CategoryPermissionForRole> GetByCategory(Guid categoryId)
         {
-            return _categoryPermissionForRoleService.GetByCategory(categoryId);
+            return _categoryPermissionForRoleRepository.GetByCategory(categoryId);
         }
     }
 }
